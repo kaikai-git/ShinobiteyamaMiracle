@@ -173,7 +173,7 @@ namespace Player
             //todo ゲーム開始時に変な方向に向いてしまうので、他のマウスでも検証 ビルドしたらいけてた、、
 
             Vector2 inputRotate = context.ReadValue<Vector2>();//回転に使用する値を取得
-            Manager.CameraManager.instance.RotateExploreCam(inputRotate);//カメラの回転
+            Manager.CameraManager.Instance.RotateExploreCam(inputRotate);//カメラの回転
         }
 
         void OnSwitchHoldItem(InputAction.CallbackContext context)

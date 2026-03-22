@@ -13,14 +13,6 @@ MonoBehaviour:
   m_Name: ItemDataBase
   m_EditorClassIdentifier: 
   itemList:
-  - itemID: 1
-    itemName: Itema
-    holdItem: {fileID: 5203613157955894517, guid: 08ef023460dcc0142a81d9259f6a72f8, type: 3}
-    inventoryItem: {fileID: 5203613157955894517, guid: 7c4ce4f4737e5ac4fbeb6e5c5a9fa7bf, type: 3}
-  - itemID: 2
-    itemName: Itemb
-    holdItem: {fileID: 1326000107091573286, guid: 8d8319c1cd811524dac0da54cd1bfceb, type: 3}
-    inventoryItem: {fileID: 1326000107091573286, guid: 7081c917dc29e7d4087065fbdf5a8fc0, type: 3}
   - itemID: 3
     itemName: "\u304F\u307E\u306E\u306C\u3044\u3050\u308B\u307F"
     holdItem: {fileID: 2577851839434278185, guid: dd2a080fca1868541ad8ff657563ba8e, type: 3}

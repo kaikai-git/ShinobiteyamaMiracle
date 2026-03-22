@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Manager
 {
-    public class CameraManager : MonoBehaviour
+    public class CameraManager : SingletonBase<CameraManager>
     {
         [Header("Settings")]
         [SerializeField] float sensitivityX; // 水平感度
@@ -24,7 +24,6 @@ namespace Manager
         [SerializeField] Transform conversationCamTransform;
         CameraType defaultCameraType = CameraType.EXPLORE;
 
-        public static CameraManager instance;
 
         public enum CameraType
         {
@@ -35,19 +34,6 @@ namespace Manager
 
         Dictionary<CameraType, CinemachineCamera> cameraDictionary;
 
-
-        private void Awake()
-        {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else
-            {
-                // インスタンスが複数存在しないように、既に存在していたら自身を消去する
-                Destroy(gameObject);
-            }
-        }
         // ゲーム開始時に呼ばれる
         void Start()
         {

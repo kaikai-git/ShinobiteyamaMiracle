@@ -26,6 +26,6 @@ public class ConversationState : Player.IPlayerState
        ConverseUIManager.instance.UnSetConversation();
 
         //Manager.CameraManager.instance.ChangeCurrentCam(Manager.CameraManager.CameraType.EXPLORE);
-        Manager.CameraManager.instance.UnSetLookTarget();
+        Manager.CameraManager.Instance.UnSetLookTarget();
     }
 }

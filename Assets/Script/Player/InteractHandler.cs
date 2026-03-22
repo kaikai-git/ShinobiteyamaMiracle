@@ -50,7 +50,7 @@ namespace Player
                     //Player側でNPCの回転コルーチン呼び出すのは違和感ある
                     StartCoroutine(conversationTarget.LookTowardPlayer(this.transform));
 
-                    Manager.CameraManager.instance.SetLookTarget(conversationTarget.CurrentTransform);
+                    Manager.CameraManager.Instance.SetLookTarget(conversationTarget.CurrentTransform);
                     ConverseUIManager.instance.SetConversation(conversationTarget.ConversationID);
                     break;
 

@@ -1,0 +1,69 @@
+using UI.Converseation;
+using UnityEngine;
+using static PlayerStateHandler;
+
+namespace Player
+{
+    //プレイヤーのゲーム内のオブジェクトへの干渉を扱うクラス。
+    public class InteractHandler : MonoBehaviour
+    {
+        private Ray characterRay;
+        [SerializeField] private float characterReach = 2.5f;
+        [SerializeField] float heightOffset;
+
+        PlayerStateHandler stateHandler;
+        void Start()
+        {
+            stateHandler = GetComponent<PlayerStateHandler>();
+        }
+
+
+        public void IntaractObj()
+        {
+            //レイの発射と描画
+            characterRay.origin = transform.position + heightOffset * Vector3.up;
+            characterRay.direction = transform.forward;
+            RaycastHit hit;
+            Debug.DrawRay(characterRay.origin, characterRay.direction * characterReach, Color.red, 1.0f);
+
+            if (Physics.Raycast(characterRay, out hit, characterReach))
+            {
+                IInteractedObj intaractedObj = hit.collider.GetComponent<IInteractedObj>();
+                if (intaractedObj == null) return;
+
+                intaractedObj.OnInteracted();
+                SetInteractBehavie(intaractedObj);
+            }
+        }
+
+        public void SetInteractBehavie(IInteractedObj interactedObj)
+        {
+            InteractedObjType interactedObjType = interactedObj.InteractedObjType;
+            switch (interactedObjType)
+            {
+                case InteractedObjType.ITEM:
+                    break;
+                case InteractedObjType.CONVERSATION:
+                    stateHandler.ChangeState(PlayerState.CONVERSE);
+                    var conversationTarget = interactedObj as IConversationInteractable;  //asを使えば、キャスト出来なかったら安全にNullを返すらしい
+
+                    //Player側でNPCの回転コルーチン呼び出すのは違和感ある
+                    StartCoroutine(conversationTarget.LookTowardPlayer(this.transform));
+
+                    Manager.CameraManager.instance.SetLookTarget(conversationTarget.CurrentTransform);
+                    ConverseUIManager.instance.SetConversation(conversationTarget.ConversationID);
+                    break;
+
+                case InteractedObjType.DOCUMENT:
+                    stateHandler.ChangeState(PlayerState.ReadiingDocument);
+                    var interactDocument = interactedObj as IDocumentInteractable;  //asを使えば、キャスト出来なかったら安全にNullを返すらしい
+
+                    UI.Document.DocumentUIManager.instance.SetDocumentUI(interactDocument.DocumentID);
+                    break;
+            }
+        }
+
+    }
+
+}
+

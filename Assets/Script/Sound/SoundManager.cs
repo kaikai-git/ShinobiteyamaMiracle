@@ -3,44 +3,11 @@ using UnityEngine;
 
 
 //Sound関連の管理クラス（シングルトン）
-public class SoundManager : MonoBehaviour
+public class SoundManager : SingletonBase<SoundManager>
 {
-    private static SoundManager instance;
-
-
     [SerializeField] AudioSource seAudioSource2D;     //2DSE用
     [SerializeField] AudioSource bgmAudioSource2D;    //2DBGM用
         
-
-    private void Awake()
-    {
-        if (instance != null && instance.gameObject != null)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-
-        instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
-    public static SoundManager Instance
-    {
-        get
-        {
-            if (instance == null)   //インスタンスが無ければシーン内のオブジェクトを探す
-            {
-                instance = FindObjectOfType<SoundManager>();
-
-                if (instance == null)   //それでも無ければ生成する
-                {
-                    var prefab = Resources.Load<SoundManager>("SoundManager");
-                    instance = Instantiate(prefab);
-                }
-            }
-            return instance;
-        }
-    }
 
 
     //SEを再生

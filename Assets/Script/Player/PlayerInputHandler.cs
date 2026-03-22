@@ -212,6 +212,7 @@ namespace Player
 
         private void OnRotateInventory(InputAction.CallbackContext context)   //アイテムインベントリを回転
         {
+
             float value = context.ReadValue<float>(); // -1 or +1
             inventoryManager.RotateInventory(value);
 

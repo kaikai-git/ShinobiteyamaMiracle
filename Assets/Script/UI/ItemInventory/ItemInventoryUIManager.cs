@@ -4,9 +4,10 @@ using TMPro;
 
 namespace UI
 {
+    //インベントリ―のアイテムを表示する関数。
     public class ItemInventoryUIManager : MonoBehaviour
     {
-        [SerializeField] TextMeshPro itemName;     //アイテム名UI
+        [SerializeField] TextMeshProUGUI itemName;     //アイテム名UI
         [SerializeField] GameObject itemInventoryUIPanel;
         [SerializeField] GameObject itemInventoryCamera;
         [SerializeField] Transform characterInventoryTransform; //アイテムインベントリの位置情報
@@ -52,9 +53,6 @@ namespace UI
         }
         public void ActiveInventory()  //アイテムインベントリを有効可する
         {
-
-            Debug.Log("aa");
-
 
             SoundManager.Instance.PlaySE(openInventorySE);
             itemInventoryUIPanel.SetActive(true);

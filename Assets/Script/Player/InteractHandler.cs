@@ -58,7 +58,7 @@ namespace Player
                     stateHandler.ChangeState(PlayerState.ReadiingDocument);
                     var interactDocument = interactedObj as IDocumentInteractable;  //asを使えば、キャスト出来なかったら安全にNullを返すらしい
 
-                    UI.Document.DocumentUIManager.instance.SetDocumentUI(interactDocument.DocumentID);
+                    UI.Document.DocumentUIManager.Instance.SetDocumentUI(interactDocument.DocumentID);
                     break;
             }
         }

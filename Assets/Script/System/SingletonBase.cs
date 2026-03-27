@@ -48,11 +48,23 @@ public class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour   //wherer
         DontDestroyOnLoad(gameObject);
 
         //必要に応じて、初期化処理を呼び出す
-        Init();
+        AwakeInheritance();
     }
 
-    protected virtual void Init()
+    /// <summary>
+    /// 継承先での一度だけ行う初期化処理
+    /// </summary>
+    protected virtual void AwakeInheritance()
     {
         //子クラスで初期化処理を記述
+    }
+
+    /// <summary>
+    ///継承先でシングルトンの状態をリセットする関数。
+    ///リスタート時とかに正しい状態に戻すため
+    /// </summary>
+    public virtual void InitSingleton()
+    {
+        
     }
 }

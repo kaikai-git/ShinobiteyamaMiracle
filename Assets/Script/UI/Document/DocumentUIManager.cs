@@ -4,62 +4,66 @@ using UnityEngine.UI;
 
 namespace UI.Document
 {
-    public class DocumentUIManager : MonoBehaviour
+    /// <summary>
+    /// 資料を読む際のUIの処理を行うシングルトンクラス
+    /// </summary>
+    public class DocumentUIManager : SingletonBase<DocumentUIManager>
     {
-        [SerializeField] DocumentData documentData; //書類データ
-        [SerializeField] GameObject ducumentUIPanel;
+        [SerializeField] DocumentData documentData;             //書類データ
+        [SerializeField] GameObject ducumentUIPanel;            //ドキュメントのUIパネル
 
 
-        [SerializeField] TextMeshProUGUI documentTitleText;
-        [SerializeField] TextMeshProUGUI documentText;
+        [SerializeField] TextMeshProUGUI documentTitleText;     //資料のタイトルテキスト
+        [SerializeField] TextMeshProUGUI documentText;          //資料の内容テキスト
         
-        [SerializeField] Button nextPageButton;
-        [SerializeField] Button backPageButton;
+        [SerializeField] Button nextPageButton;                 //次のページに進むボタン
+        [SerializeField] Button backPageButton;                 //前のページに戻るボタン
 
-        public static DocumentUIManager instance;
-        const string EMPTY_TEXT = "";
-        int currentDocumentID = EMPTY_DOCUMENT_ID;
-        const int EMPTY_DOCUMENT_ID = -1;
+        const string EMPTY_TEXT = "";                           //空文字の定数
+        int currentDocumentID = EMPTY_DOCUMENT_ID;              //現在呼んでる資料のID  
+        const int EMPTY_DOCUMENT_ID = -1;                       //空状態のID
 
 
-        private void Awake()
+        protected override void AwakeInheritance()
         {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else
-            {
-                // インスタンスが複数存在しないように、既に存在していたら自身を消去する
-                Destroy(gameObject);
-            }
+            //UnSetDocumentUI();    //初期化
         }
 
-        private void Start()
+        /// <summary>
+        /// 初期化処理
+        /// </summary>
+        public override void InitSingleton()
         {
-            // SetDocumentUI(1);
-            UnSetDocumentUI();
+            UnSetDocumentUI();    //初期化
         }
-        
-       
 
+
+        /// <summary>
+        /// 指定したIDから資料情報を取得
+        /// </summary>
+        /// <param name="_documentID"></param>
         public void SetDocumentUI(int _documentID)
         {
-            currentDocumentID = _documentID;
-            Debug.Log(currentDocumentID);
-            ducumentUIPanel.SetActive(true);
+            UnSetDocumentUI();                  //一応初期化
 
-            documentTitleText.text =  documentData.EnglishDocumentData[_documentID].title;
-            documentText.text = documentData.EnglishDocumentData[_documentID].first;
+            currentDocumentID = _documentID;    //資料IDを更新
+            Debug.Log(currentDocumentID);
+            ducumentUIPanel.SetActive(true);    //パネルを更新
+
+            documentTitleText.text =  documentData.EnglishDocumentData[_documentID].title;  //タイトルを更新
+            documentText.text = documentData.EnglishDocumentData[_documentID].first;        //内容を更新
 
         }
 
+        /// <summary>
+        /// 初期化の処理
+        /// </summary>
         public void UnSetDocumentUI()
         {
-            ducumentUIPanel.SetActive(false);
-            currentDocumentID = EMPTY_DOCUMENT_ID;
-            documentTitleText.text = EMPTY_TEXT;
-            documentText.text = EMPTY_TEXT;
+            ducumentUIPanel.SetActive(false);       //パネルを非表示
+            currentDocumentID = EMPTY_DOCUMENT_ID;  //現在呼んでいる資料のIDを無しに
+            documentTitleText.text = EMPTY_TEXT;    //タイトルを空にする。
+            documentText.text = EMPTY_TEXT;         //内容のテキストを空にする
         }
 
         //todoエクセルからの文字をとってくる

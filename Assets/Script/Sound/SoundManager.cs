@@ -2,7 +2,9 @@ using UnityEngine;
 
 
 
-//Sound関連の管理クラス（シングルトン）
+/// <summary>
+///Sound関連の管理クラス（シングルトン）
+/// </summary>
 public class SoundManager : SingletonBase<SoundManager>
 {
     [SerializeField] SoundDataBase soundDataBase;     //サウンドのデータベース
@@ -10,7 +12,7 @@ public class SoundManager : SingletonBase<SoundManager>
     [SerializeField] AudioSource bgmAudioSource2D;    //2DBGM用
 
 
-   protected override void Init()
+   protected override void AwakeInheritance()
     {
         soundDataBase.RegistSeBgmData();    //データベースの検索を最適化
     }

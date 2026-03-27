@@ -19,7 +19,7 @@ public class DocumentReadingState : Player.IPlayerState
     }
     public void ExitState()
     {
-        UI.Document.DocumentUIManager.instance.UnSetDocumentUI();
+        UI.Document.DocumentUIManager.Instance.UnSetDocumentUI();
         playerInputHandler.SwitchEnableReadingDocumentAction(Player.PlayerInputHandler.EnableState.DISABLE);      //ŠY“–ƒAƒNƒVƒ‡ƒ“‚ð–³Œø‰»
     }
 }

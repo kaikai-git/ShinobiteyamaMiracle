@@ -5,22 +5,31 @@ using UnityEngine;
 //Sound関連の管理クラス（シングルトン）
 public class SoundManager : SingletonBase<SoundManager>
 {
+    [SerializeField] SoundDataBase soundDataBase;     //サウンドのデータベース
     [SerializeField] AudioSource seAudioSource2D;     //2DSE用
     [SerializeField] AudioSource bgmAudioSource2D;    //2DBGM用
-        
 
+
+   protected override void Init()
+    {
+        soundDataBase.RegistSeBgmData();    //データベースの検索を最適化
+    }
 
     //SEを再生
 
-    public void PlaySE(AudioClip audioClip)
+    public void PlaySE(SEType seType)
     {
+        //データベースから該当データを取得
+        AudioClip audioClip = soundDataBase.GetSE(seType);
         seAudioSource2D.PlayOneShot(audioClip);
     }
 
     //BGmを再生
-    public void PlayBGM(AudioClip audioClip)
+    public void PlayBGM(BGMType bgmType)
     {
-        bgmAudioSource2D.clip = audioClip;
+        //データベースから該当データを取得
+
+        AudioClip audioClip = soundDataBase.GetBGM(bgmType);
         bgmAudioSource2D.Play();
     }
 

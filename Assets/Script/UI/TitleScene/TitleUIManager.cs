@@ -54,7 +54,7 @@ namespace UI
             Debug.Log($"Instance: {SoundManager.Instance}");
             Debug.Log($"selectSE: {selectSE}");
 
-            SoundManager.Instance.PlaySE(selectSE);
+            SoundManager.Instance.PlaySE(SEType.CANCEL_UI);
 
             loadGameList.SetActive(true);
             defaultUIList.SetActive(false);

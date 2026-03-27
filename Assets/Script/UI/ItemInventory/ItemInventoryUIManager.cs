@@ -54,7 +54,7 @@ namespace UI
         public void ActiveInventory()  //アイテムインベントリを有効可する
         {
 
-            SoundManager.Instance.PlaySE(openInventorySE);
+            SoundManager.Instance.PlaySE(SEType.CANCEL_UI);
             itemInventoryUIPanel.SetActive(true);
             itemInventoryCamera.SetActive(true);
         }

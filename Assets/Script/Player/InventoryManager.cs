@@ -27,8 +27,9 @@ namespace Player
 
         void Start()
         {
-
             itemInventoryUIManager = FindObjectOfType<ItemInventoryUIManager>();
+            DisableInventory(); //初期時は非表示
+
         }
 
         public void ActiveInventory()  //アイテムインベントリを有効可する

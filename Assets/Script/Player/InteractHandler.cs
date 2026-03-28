@@ -1,6 +1,6 @@
 using UI.Converseation;
 using UnityEngine;
-using static PlayerStateHandler;
+//using static PlayerStateHandler;
 
 namespace Player
 {
@@ -36,15 +36,21 @@ namespace Player
             }
         }
 
+        /// <summary>
+        /// 各干渉可能オブジェクトに振れたとの処理
+        /// </summary>
+        /// <param name="interactedObj">干渉オブジェクトの種類</param>
         public void SetInteractBehavie(IInteractedObj interactedObj)
         {
             InteractedObjType interactedObjType = interactedObj.InteractedObjType;
             switch (interactedObjType)
             {
                 case InteractedObjType.ITEM:
+
                     break;
+
                 case InteractedObjType.CONVERSATION:
-                    stateHandler.ChangeState(PlayerState.CONVERSE);
+                    stateHandler.ChangeState(PlayerStateHandler.PlayerState.CONVERSE);
                     var conversationTarget = interactedObj as IConversationInteractable;  //asを使えば、キャスト出来なかったら安全にNullを返すらしい
 
                     //Player側でNPCの回転コルーチン呼び出すのは違和感ある
@@ -55,7 +61,7 @@ namespace Player
                     break;
 
                 case InteractedObjType.DOCUMENT:
-                    stateHandler.ChangeState(PlayerState.ReadiingDocument);
+                    stateHandler.ChangeState(PlayerStateHandler.PlayerState.ReadiingDocument);
                     var interactDocument = interactedObj as IDocumentInteractable;  //asを使えば、キャスト出来なかったら安全にNullを返すらしい
 
                     UI.Document.DocumentUIManager.Instance.SetDocumentUI(interactDocument.DocumentID);

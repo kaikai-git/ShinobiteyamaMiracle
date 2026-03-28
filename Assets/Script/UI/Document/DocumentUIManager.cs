@@ -9,7 +9,7 @@ namespace UI.Document
     /// </summary>
     public class DocumentUIManager : SingletonBase<DocumentUIManager>
     {
-        //[SerializeField] DocumentData documentData;             //書類データ
+        [SerializeField] DocumentDataBase documentDatabase;             //書類データ
         [SerializeField] GameObject ducumentUIPanel;            //ドキュメントのUIパネル
 
 
@@ -50,8 +50,8 @@ namespace UI.Document
             Debug.Log(currentDocumentID);
             ducumentUIPanel.SetActive(true);    //パネルを更新
 
-           // documentTitleText.text =  documentData.EnglishDocumentData[_documentID].title;  //タイトルを更新
-           // documentText.text = documentData.EnglishDocumentData[_documentID].first;        //内容を更新
+           documentTitleText.text = documentDatabase.GetItemById(_documentID).DocumentName;  //タイトルを更新
+           documentText.text = documentDatabase.GetItemById(_documentID).GetPageContent(0);        //内容を更新
 
         }
 

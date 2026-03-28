@@ -84,7 +84,7 @@ namespace UI
             hasItemList.Add(inventoryUIItemObj);     
         }
 
-        public void RotateItemInventory(List<ItemInfomation> _hasItemList, RotateType rotateType)
+        public void RotateItemInventory(List<ItemData> _hasItemList, RotateType rotateType)
         {
             if (_hasItemList == null || _hasItemList.Count == 0) return;
             if (isChangeRotate) return;   //回転中ならリクエストを受けない

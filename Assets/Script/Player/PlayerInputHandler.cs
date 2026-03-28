@@ -193,8 +193,8 @@ namespace Player
 
         private void OnAdvanceConversation(InputAction.CallbackContext context)    //会話時のアクション
         {
-            ConverseUIManager.instance.OnAdvanceConversation();
-            if(ConverseUIManager.instance.IsLastConversation())
+            ConverseUIManager.Instance.OnAdvanceConversation();
+            if(ConverseUIManager.Instance.IsLastConversation())
             {
                 playerStateHandler.ChangeState(PlayerStateHandler.PlayerState.EXPLORE);
             }

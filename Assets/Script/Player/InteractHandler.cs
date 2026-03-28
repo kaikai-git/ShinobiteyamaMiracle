@@ -51,7 +51,7 @@ namespace Player
                     StartCoroutine(conversationTarget.LookTowardPlayer(this.transform));
 
                     Manager.CameraManager.Instance.SetLookTarget(conversationTarget.CurrentTransform);
-                    ConverseUIManager.instance.SetConversation(conversationTarget.ConversationID);
+                    ConverseUIManager.Instance.SetConversation(conversationTarget.ConversationID);
                     break;
 
                 case InteractedObjType.DOCUMENT:

@@ -7,33 +7,23 @@ using UnityEngine.UI;
 
 namespace UI.Converseation
 { 
-    public class ConverseUIManager : MonoBehaviour
+    /// <summary>
+    /// 会話を行う際のUI処理を行うシングルトンクラス
+    /// </summary>
+    public class ConverseUIManager : SingletonBase<ConverseUIManager>
     {
-        [SerializeField] ConversationData testdata; // データを格納
+        [SerializeField] ConversationData testdata;     // データを格納
         [SerializeField] Text converseationText;
-        bool isTypewritingText = false;    //現在タイプライタ表示中かどうか
-        const float typewriteDelay = 0.05f; //タイプライタ表示で次の文字が表示されるまでの間隔
-        public static ConverseUIManager instance;
+        bool isTypewritingText = false;                 //現在タイプライタ表示中かどうか
+        const float typewriteDelay = 0.05f;             //タイプライタ表示で次の文字が表示されるまでの間隔
         List<string> currentConversattionData;
-        //Dictionary<int,List<string>> conversattionData;
         int currentIndex = 0;
 
         Coroutine _someCoroutine;
 
         [SerializeField] GameObject conversationPanel;
 
-        private void Awake()
-        {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else
-            {
-                // インスタンスが複数存在しないように、既に存在していたら自身を消去する
-                Destroy(gameObject);
-            }
-        }
+   
         void Start()
         {
             UnSetConversation();

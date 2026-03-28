@@ -23,7 +23,7 @@ public class ConversationState : Player.IPlayerState
     public void ExitState()
     {
        playerInputHandler.SwitchEnableConversationAction(Player.PlayerInputHandler.EnableState.DISABLE);      //該当アクションを無効化
-       ConverseUIManager.instance.UnSetConversation();
+       ConverseUIManager.Instance.UnSetConversation();
 
         //Manager.CameraManager.instance.ChangeCurrentCam(Manager.CameraManager.CameraType.EXPLORE);
         Manager.CameraManager.Instance.UnSetLookTarget();

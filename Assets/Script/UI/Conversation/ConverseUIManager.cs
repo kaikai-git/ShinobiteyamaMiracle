@@ -18,7 +18,7 @@ namespace UI.Converseation
         List<string> currentConversationDataList;           //現在の会話データのリスト
         int currentSentenceIndex = 0;                   //現在の文章の番号。
 
-        Coroutine _someCoroutine;
+        Coroutine typeWriteCoroutine;                   //タイプライト表示するコルーチン
 
         [SerializeField] GameObject conversationPanel;
 
@@ -45,7 +45,7 @@ namespace UI.Converseation
 
             currentConversationDataList = conversation.Conversations;
 
-            _someCoroutine = StartCoroutine(TypewriterText(currentConversationDataList[currentSentenceIndex]));
+            typeWriteCoroutine = StartCoroutine(TypewriterText(currentConversationDataList[currentSentenceIndex]));
         }
 
         public void UnSetConversation()
@@ -56,7 +56,11 @@ namespace UI.Converseation
             conversationPanel.SetActive(false);     //会話文UIパネルを非表示
         }
 
-
+        /// <summary>
+        /// 一文字ずつ文章を表示していく
+        /// </summary>
+        /// <param name="text">表示する文章全文</param>
+        /// <returns></returns>
         IEnumerator TypewriterText(string text) //1文字ずつ表示
         {
             isTypewritingText = true;
@@ -68,7 +72,7 @@ namespace UI.Converseation
                 yield return new WaitForSeconds(typewriteDelay);
                
             }
-
+            //全文表示完了
             isTypewritingText = false;
 
         }
@@ -94,12 +98,10 @@ namespace UI.Converseation
         {
             if(isTypewritingText) //タイプライト表示中に入力があれば全文を表示させる
             {
-               
-                StopCoroutine(_someCoroutine);
+                StopCoroutine(typeWriteCoroutine);      
                 isTypewritingText = false;
 
                 converseationText.text = currentConversationDataList[currentSentenceIndex];
-                
             }
             //全文表示していれば次の文章に進む
             else                 
@@ -107,7 +109,7 @@ namespace UI.Converseation
                 currentSentenceIndex++;
                 if (currentSentenceIndex < currentConversationDataList.Count) //タイプライト表示が終わっている時に入力があれば次の会話文に
                 {
-                    _someCoroutine = StartCoroutine(TypewriterText(currentConversationDataList[currentSentenceIndex]));
+                    typeWriteCoroutine = StartCoroutine(TypewriterText(currentConversationDataList[currentSentenceIndex]));
                 }
             }
         }

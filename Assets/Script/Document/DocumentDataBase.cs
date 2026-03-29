@@ -6,7 +6,7 @@ using System.Linq;
 public class DocumentDataBase : ScriptableObject
 {
     public List<DocumentData> documentDataList = new List<DocumentData>();
-    public DocumentData GetItemById(int id)
+    public DocumentData GetDocumentById(int id)
     {
         return documentDataList.FirstOrDefault(item => item.DocumentID == id);
     }

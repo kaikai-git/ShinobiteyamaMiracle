@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI.Converseation
 { 
@@ -12,151 +10,50 @@ namespace UI.Converseation
     /// </summary>
     public class ConverseUIManager : SingletonBase<ConverseUIManager>
     {
-        //[SerializeField] ConversationData testdata;     // データを格納
-        [SerializeField] Text converseationText;
+        [SerializeField] ConversationDataBase conversationDataBase;     //会話文のデータベース
+        [SerializeField] TextMeshProUGUI converseationText;
         bool isTypewritingText = false;                 //現在タイプライタ表示中かどうか
         const float typewriteDelay = 0.05f;             //タイプライタ表示で次の文字が表示されるまでの間隔
-        List<string> currentConversattionData;
-        int currentIndex = 0;
+
+        List<string> currentConversationDataList;           //現在の会話データのリスト
+        int currentSentenceIndex = 0;                   //現在の文章の番号。
 
         Coroutine _someCoroutine;
 
         [SerializeField] GameObject conversationPanel;
 
-   
-        void Start()
+
+
+        /// <summary>
+        /// 初期化処理
+        /// </summary>
+        public override void InitSingleton()
         {
-            UnSetConversation();
-            // ID=1 の会話データを取得
-            //var convList = GetConversationTextFromID(1);
-
-            //// データが存在しない場合
-            //if (convList == null || convList.Count == 0)
-            //{
-            //    Debug.LogWarning("会話データが見つかりませんでした（id=1）");
-            //    return;
-            //}
-
-            //// 1件ずつ出力
-            //Debug.Log($"=== 会話ID: 1 の内容 ===");
-            //for (int i = 0; i < convList.Count; i++)
-            //{
-            //    Debug.Log($"[{i}] {convList[i]}");
-            //}
+            UnSetConversation();    //初期化
         }
 
 
-        //public static List<string> CollectConversations(ConversationData row)
-        //{
-        //    List<string> list = new List<string>();
-
-        //    foreach (var field in typeof(ConversationData).GetFields(BindingFlags.Public | BindingFlags.Instance))
-        //    {
-        //        // id は数値なのでスキップ
-        //        if (field.FieldType != typeof(string)) continue;
-
-        //        string value = field.GetValue(row) as string;
-        //        if (!string.IsNullOrEmpty(value))
-        //            list.Add(value);
-        //    }
-
-        //    return list;
-        //}
-
-
-        //IDから文字列を返す。
-        //List<string> GetConversationTextFromID(int id)
-        //{
-        //    if (testdata == null || testdata.JapaneseConversationData == null)
-        //        return new List<string>();
-
-        //    // id は配列の index とは別（id フィールドに依存）なので検索する
-        //    foreach (var row in testdata.JapaneseConversationData)
-        //    {
-        //        // row が null ならスキップ
-        //        if (row == null) continue;
-
-        //        // row.id の型が int である想定
-        //        var idField = row.GetType().GetField("id", BindingFlags.Public | BindingFlags.Instance);
-        //        if (idField != null)
-        //        {
-        //            object idVal = idField.GetValue(row);
-        //            if (idVal is int rowId && rowId == id)
-        //            {
-        //                // 該当行が見つかったらその行から全ての文字列フィールドを取り出す
-        //                return CollectStringFieldsFromRow(row);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            // もし row.id がプロパティになっている場合の安全処理
-        //            var idProp = row.GetType().GetProperty("id", BindingFlags.Public | BindingFlags.Instance);
-        //            if (idProp != null)
-        //            {
-        //                object idVal = idProp.GetValue(row, null);
-        //                if (idVal is int rowId && rowId == id)
-        //                    return CollectStringFieldsFromRow(row);
-        //            }
-        //        }
-        //    }
-
-        //    // 見つからなければ空リスト
-        //    return new List<string>();
-        //}
-
-        // 行オブジェクトから string 型のフィールドを宣言順（ソースの並び順）で取り出すユーティリティ
-        List<string> CollectStringFieldsFromRow(object row)
-        {
-            var list = new List<string>();
-            if (row == null) return list;
-
-            var type = row.GetType();
-
-            // フィールドを取得して MetadataToken（宣言順に近い安定した順序）でソート
-            var stringFields = type
-                .GetFields(BindingFlags.Public | BindingFlags.Instance)
-                .Where(f => f.FieldType == typeof(string))
-                .OrderBy(f => f.MetadataToken); // 宣言順に近い順序
-
-            foreach (var f in stringFields)
-            {
-                string value = f.GetValue(row) as string;
-                if (!string.IsNullOrEmpty(value))
-                    list.Add(value);
-            }
-
-            // もしプロパティで string を持っている列があるなら追加で処理（オプション）
-            var stringProps = type
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(p => p.PropertyType == typeof(string))
-                .OrderBy(p => p.MetadataToken);
-
-            foreach (var p in stringProps)
-            {
-                string value = p.GetValue(row, null) as string;
-                if (!string.IsNullOrEmpty(value))
-                    list.Add(value);
-            }
-
-            return list;
-        }
-                        
         public void SetConversation(int _conversationID)
         {
 
             conversationPanel.SetActive(true);
 
-            // ID=1 の会話データを取得
-           // currentConversattionData = GetConversationTextFromID(_conversationID);
-            currentIndex = 0;
+            currentSentenceIndex = 0;
 
-            _someCoroutine = StartCoroutine(TypewriterText(currentConversattionData[currentIndex]));
+            //会話の文章を取得して追加
+            ConversationData conversation = conversationDataBase.GetConversationByID(_conversationID);
+
+            currentConversationDataList = conversation.Conversations;
+
+            _someCoroutine = StartCoroutine(TypewriterText(currentConversationDataList[currentSentenceIndex]));
         }
 
         public void UnSetConversation()
         {
-            converseationText.text = "";    //空文字でテキストを初期化
-            conversationPanel.SetActive(false);
+            converseationText.text = "";            //空文字でテキストを初期化
+            currentSentenceIndex = 0;               //センテンス番号を初期化
+            currentConversationDataList = null;     //会話データを空に
+            conversationPanel.SetActive(false);     //会話文UIパネルを非表示
         }
 
 
@@ -176,16 +73,23 @@ namespace UI.Converseation
 
         }
 
+        /// <summary>
+        /// 現在の文章が会話文の最後の文章かどうか
+        /// </summary>
+        /// <returns></returns>
         public bool IsLastConversation()   
         {
             bool isLastConversation = false;
-            if(currentIndex == currentConversattionData.Count)
+            if(currentSentenceIndex == currentConversationDataList.Count)
             {
                 return true;
             }
             return isLastConversation;
         }
 
+        /// <summary>
+        /// 入力に対して、文字を完全表示させる or　次の文章に進める
+        /// </summary>
         public void OnAdvanceConversation()
         {
             if(isTypewritingText) //タイプライト表示中に入力があれば全文を表示させる
@@ -194,15 +98,16 @@ namespace UI.Converseation
                 StopCoroutine(_someCoroutine);
                 isTypewritingText = false;
 
-                converseationText.text = currentConversattionData[currentIndex];
+                converseationText.text = currentConversationDataList[currentSentenceIndex];
                 
             }
+            //全文表示していれば次の文章に進む
             else                 
             {
-                currentIndex++;
-                if (currentIndex < currentConversattionData.Count) //タイプライト表示が終わっている時に入力があれば次の会話文に
+                currentSentenceIndex++;
+                if (currentSentenceIndex < currentConversationDataList.Count) //タイプライト表示が終わっている時に入力があれば次の会話文に
                 {
-                    _someCoroutine = StartCoroutine(TypewriterText(currentConversattionData[currentIndex]));
+                    _someCoroutine = StartCoroutine(TypewriterText(currentConversationDataList[currentSentenceIndex]));
                 }
             }
         }

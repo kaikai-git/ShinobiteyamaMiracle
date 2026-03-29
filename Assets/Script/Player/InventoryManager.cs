@@ -97,6 +97,7 @@ namespace Player
             NotifyIndexChanged();
         }
 
+       
         public void nextItem()
         {
             if (hasItemList.Count == 0) return; // 所持アイテムがない場合は終了
@@ -120,6 +121,7 @@ namespace Player
             ItemData itemData = GetItemFromDataBase(_itemID);   //IDからアイテムの情報を取得
             hasItemList.Add(itemData);                                //所持アイテムリストんの末尾に追加
 
+            if (itemInventoryUIManager == null) Debug.LogError("itemInventoryUIManager Null");
             itemInventoryUIManager.GenerateInventoryItem(itemData.InventoryItem); //インベントリ用のアイテムを生成
 
             currentListIndex = hasItemList.Count;     //現在の所持アイテムを拾ったオブジェクトに更新

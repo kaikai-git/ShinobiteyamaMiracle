@@ -32,8 +32,8 @@ MonoBehaviour:
       m_FallbackState: 0
       m_WaitForCompletion: 0
       m_LocalVariables: []
-    holdItem: {fileID: 0}
-    inventoryItem: {fileID: 0}
+    holdItem: {fileID: 2577851839434278185, guid: dd2a080fca1868541ad8ff657563ba8e, type: 3}
+    inventoryItem: {fileID: 2644179131510875253, guid: 6422205f5e07d4c44adb51023c783133, type: 3}
   references:
     version: 2
     RefIds: []

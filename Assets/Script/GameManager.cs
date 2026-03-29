@@ -7,8 +7,9 @@ public class GameManager : MonoBehaviour
 {
     public void Start()
     {
-        UI.Document.DocumentUIManager.Instance.InitSingleton();      //DocumentUIをリセット
-        //UI.Document.DocumentUIManager.Instance.SetDocumentUI(1);      //DocumentUIをセット
+        //この処理はUIManager作って移すべきかも
+        UI.Document.DocumentUIManager.Instance.InitSingleton();           //DocumentUIをリセット
+        UI.Converseation.ConverseUIManager.Instance.InitSingleton();      //会話文のUIをセット
 
     }
 }

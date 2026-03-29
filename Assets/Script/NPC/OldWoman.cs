@@ -8,7 +8,7 @@ public class OldWoman : MonoBehaviour, IConversationInteractable
     [SerializeField] int conversationID = 3;
 
     public Transform CurrentTransform => currentTransform;
-     Transform currentTransform;
+    Transform currentTransform;
 
 
     private float rotationSpeed = 100.0f;

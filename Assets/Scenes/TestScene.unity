@@ -169,7 +169,7 @@ Transform:
   - {fileID: 1230376193}
   - {fileID: 402832321}
   - {fileID: 1415733365}
-  m_Father: {fileID: 795004908}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &164227657
 GameObject:
@@ -1702,7 +1702,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 904211059}
-  - {fileID: 48947759}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &795004909
@@ -4107,6 +4106,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 48947759}
   - {fileID: 795004908}
   - {fileID: 317356135}
   - {fileID: 1028742641}

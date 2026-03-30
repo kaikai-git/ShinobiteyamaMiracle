@@ -25,7 +25,6 @@ public class ConversationState : Player.IPlayerState
        playerInputHandler.SwitchEnableConversationAction(Player.PlayerInputHandler.EnableState.DISABLE);      //該当アクションを無効化
        ConverseUIManager.Instance.UnSetConversation();
 
-        //Manager.CameraManager.instance.ChangeCurrentCam(Manager.CameraManager.CameraType.EXPLORE);
-        Manager.CameraManager.Instance.UnSetLookTarget();
+        Manager.CameraManager.Instance.ExitConversationCamHanlder();
     }
 }

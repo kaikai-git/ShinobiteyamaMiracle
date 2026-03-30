@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 namespace Manager
@@ -17,11 +18,11 @@ namespace Manager
         const int MAX_PRIORITY = 1;
         const int MIN_PRIORITY = 0;
         [SerializeField] CinemachineCamera exploreCam;
-        [SerializeField] CinemachineCamera conversationCam;
+        //[SerializeField] CinemachineCamera conversationCam;
 
         [SerializeField] Transform player;
         [SerializeField] Transform exploreCamTransform;        // 縦回転を担当（=Main Camera）
-        [SerializeField] Transform conversationCamTransform;
+        //[SerializeField] Transform conversationCamTransform;
         CameraType defaultCameraType = CameraType.EXPLORE;
 
 
@@ -45,10 +46,15 @@ namespace Manager
 
             //カメラを登録
             if (exploreCam != null) cameraDictionary[CameraType.EXPLORE] = exploreCam;
-            if (conversationCam != null) cameraDictionary[CameraType.CONVERSATION] = conversationCam;
+            //if (conversationCam != null) cameraDictionary[CameraType.CONVERSATION] = conversationCam;
 
             ChangeCurrentCam(defaultCameraType);
 
+        }
+
+        void LateUpdate()
+        {
+            this.transform.position = player.position;
         }
         //回転
         public void RotateExploreCam(Vector2 _inputValue)
@@ -57,11 +63,15 @@ namespace Manager
             float deltaX = _inputValue.x * sensitivityX * Time.deltaTime;
             float deltaY = _inputValue.y * sensitivityY * Time.deltaTime;
 
-            player.Rotate(Vector3.up, deltaX, Space.World); //Y軸を中心に回転
+            player.Rotate(Vector3.up, deltaX, Space.World); //Y軸を中心に回転 水平回転
+
+           // float yaw = player.eulerAngles.y;
                                                             // カメラ（ピッチ）
             pitch -= deltaY;                      // 上を見るとマウスは正→ピッチは減る
             pitch = Mathf.Clamp(pitch, MIN_PITCH, MAX_PITCH); //上下の回転を制限
-            exploreCamTransform.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+            exploreCamTransform.localRotation = Quaternion.Euler(pitch, 0, 0f);
+            //conversationCamTransform.localRotation = Quaternion.Euler(pitch, 0f, 0f);   //カメラ切り替わった時にガクらないように会話用カメラも一応追従
+
         }
 
         public void ChangeCurrentCam(CameraType targetCameraType)
@@ -92,12 +102,23 @@ namespace Manager
 
         public void UnSetLookTarget()
         {
-            conversationCam.LookAt = null;
-            conversationCam.Follow = null;
+            //conversationCam.LookAt = null;
+            //conversationCam.Follow = null;
 
             exploreCam.LookAt = null;
             exploreCam.Follow = null;
 
+            SyncCameraState();
+
+        }
+
+        public void SyncCameraState()
+        {
+            // 現在のカメラの角度を取得
+            float currentPitch = exploreCamTransform.localEulerAngles.x;
+            if (currentPitch > 180f) currentPitch -= 360f;
+
+            pitch = Mathf.Clamp(currentPitch, MIN_PITCH, MAX_PITCH);
         }
     }
 }

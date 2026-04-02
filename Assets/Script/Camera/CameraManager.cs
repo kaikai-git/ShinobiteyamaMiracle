@@ -92,6 +92,10 @@ namespace Manager
             }
         }
 
+        /// <summary>
+        /// 会話時に視点を向けるターゲットを指定
+        /// </summary>
+        /// <param name="_targetTransform"></param>
         public void SetLookTarget(Transform _targetTransform)
         {
             //conversationCam.LookAt = _targetTransform;
@@ -101,13 +105,19 @@ namespace Manager
             exploreCam.Follow = _targetTransform;
         }
 
-
+        /// <summary>
+        /// 会話状態から抜ける時の処理
+        /// </summary>
         public void ExitConversationCamHanlder()
         {
             UnSetLookTarget();
             SyncRotationFromCamera();
         }
-        public void UnSetLookTarget()
+
+        /// <summary>
+        /// 視点を向ける対象
+        /// </summary>
+        private void UnSetLookTarget()
         {
             //conversationCam.LookAt = null;
             //conversationCam.Follow = null;
@@ -116,11 +126,11 @@ namespace Manager
             exploreCam.Follow = null;
 
         }
-        
+
         /// <summary>
         ///会話が終わった時にカメラがガクっとなるのを補正
         /// </summary>
-        public void SyncRotationFromCamera()
+        private void SyncRotationFromCamera()
         {
             // 現在のカメラのワールド回転から、ピッチ角(X軸)を抽出して変数に上書きする
             // eulerAngles.x は 0-360度なので、Clampしやすいように -180〜180に変換
@@ -132,6 +142,14 @@ namespace Manager
             // プレイヤーのY軸回転も同期させる これをしないと、会話中にNPCを向いた方向に体がついていかない
             Vector3 currentEuler = exploreCamTransform.eulerAngles;
             player.rotation = Quaternion.Euler(0, currentEuler.y, 0);
+        }
+
+        /// <summary>
+        /// カメラの角度を取得（ビルボードに使用)
+        /// </summary>
+        private void GetCameraRot()
+        {
+
         }
 
     }

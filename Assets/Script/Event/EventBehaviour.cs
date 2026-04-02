@@ -1,5 +1,6 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using Event;
+
 
 public class EventBehaviour : MonoBehaviour
 {

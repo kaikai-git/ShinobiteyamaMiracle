@@ -7,8 +7,7 @@ public class OldWoman : MonoBehaviour, IConversationInteractable
     public int ConversationID => conversationID;
     [SerializeField] int conversationID = 3;
 
-    public Transform CurrentTransform => currentTransform;
-    Transform currentTransform;
+    public Transform CurrentTransform => transform;
 
 
     private float rotationSpeed = 100.0f;
@@ -16,7 +15,7 @@ public class OldWoman : MonoBehaviour, IConversationInteractable
   
     public void OnInteracted()
     {
-        currentTransform = this.transform;
+        //currentTransform = this.transform;
     }
 
     

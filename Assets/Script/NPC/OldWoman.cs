@@ -5,7 +5,7 @@ public class OldWoman : MonoBehaviour, IConversationInteractable
 {
     public InteractedObjType InteractedObjType => InteractedObjType.CONVERSATION;
     public int ConversationID => conversationID;
-    [SerializeField] int conversationID = 3;
+    [SerializeField] int conversationID;
 
     public Transform CurrentTransform => transform;
 

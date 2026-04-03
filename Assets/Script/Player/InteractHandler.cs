@@ -45,7 +45,7 @@ namespace Player
             InteractedObjType interactedObjType = interactedObj.InteractedObjType;
             switch (interactedObjType)
             {
-                case InteractedObjType.ITEM:
+                case InteractedObjType.ITEM_CONSUMED:
 
                     break;
 

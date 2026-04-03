@@ -9,9 +9,10 @@ public interface IInteractedObj
     void OnInteracted();
 }
 
+//プレイヤーが干渉できる対象
 public enum InteractedObjType
 {
-    ITEM,
-    CONVERSATION,
-    DOCUMENT
+    ITEM_CONSUMED,  //アイテムの使用先
+    CONVERSATION,   //会話相手
+    DOCUMENT        //資料
 }

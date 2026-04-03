@@ -4,11 +4,20 @@ using UnityEngine.UI;
 /// <summary>
 /// アイテムを使用されるオブジェクトの処理
 /// </summary>
-public class ItemConsumeBehaviour : MonoBehaviour
+public class ItemConsumeBehaviour : MonoBehaviour,IItemConsumed
 {
     [SerializeField] Collider detectionCollider;    //プレイヤ―との接触を検知用コライダー
     [SerializeField] Image suggestImage;            //干渉できるサジェストUI
     bool isHit = false;                             //コライダーにプレイヤーが接触中か
+
+    public InteractedObjType InteractedObjType => InteractedObjType.ITEM_CONSUMED;
+
+   // [SerializeField] int CanConsumedItemID;
+
+    public int CanConsumedItemID => canConsumedItemID;
+    [SerializeField] int canConsumedItemID;
+
+
     void Awake()
     {
         if (detectionCollider != null)
@@ -30,6 +39,13 @@ public class ItemConsumeBehaviour : MonoBehaviour
 
         suggestImage.enabled = false;
     }
+
+
+    public void OnInteracted()
+    {
+        //該当
+    }
+
 
     /// <summary>
     ///検知時の共通処理　UIを表示

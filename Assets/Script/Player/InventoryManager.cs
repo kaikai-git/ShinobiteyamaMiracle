@@ -5,7 +5,7 @@ using UI;
 namespace Player
 {
     //キャラクターの所持アイテムを管理するクラス
-    public class InventoryManager : MonoBehaviour
+    public class InventoryManager : SingletonBase<InventoryManager>
     {
         const int MAX_ENVENTORY_NUM = 8;
 
@@ -143,6 +143,13 @@ namespace Player
             }
             return null;
         }
+
+        /// <summary>
+        /// 所持しているアイテムのIDを返す なければnullを返す
+        /// </summary>
+        /// <returns></returns>
+
+        public int? GetHoldItemID(){ return holdItemInfomation?.ItemID; }
     }
 
 }

@@ -1,8 +1,9 @@
 using UnityEngine;
 using ItemConsumed;
 using UnityEngine.UI;
+using Player;
 /// <summary>
-/// アイテムを使用されるオブジェクトの処理
+/// アイテムを使用されるオブジェクトの共通処理を行う基底クラス
 /// </summary>
 public class ItemConsumeBehaviour : MonoBehaviour,IItemConsumed
 {
@@ -11,10 +12,10 @@ public class ItemConsumeBehaviour : MonoBehaviour,IItemConsumed
     bool isHit = false;                             //コライダーにプレイヤーが接触中か
 
     public InteractedObjType InteractedObjType => InteractedObjType.ITEM_CONSUMED;
-
+        
    // [SerializeField] int CanConsumedItemID;
-
-    public int CanConsumedItemID => canConsumedItemID;
+    bool isItemConsumed = false;        //アイテム消費したかのフラグ
+    public int CanConsumedItemID => canConsumedItemID;  //このIDのアイテムをホールドしている状態で触れるとイベント発火
     [SerializeField] int canConsumedItemID;
 
 
@@ -40,10 +41,29 @@ public class ItemConsumeBehaviour : MonoBehaviour,IItemConsumed
         suggestImage.enabled = false;
     }
 
-
+    /// <summary>
+    /// 触れた際の処理
+    /// </summary>
     public void OnInteracted()
     {
-        //該当
+        //消費していたら処理しない
+        if (isItemConsumed) return;
+
+        int? currentID = InventoryManager.Instance.GetHoldItemID();
+
+        //該当アイテムIDをホールドしていなければ処理しない
+        if (currentID == null || currentID != canConsumedItemID) return;
+        isItemConsumed = true;
+        //継承先での各々の処理
+        OnInteractedInherit();
+    }
+
+    /// <summary>
+    /// 継承先での処理
+    /// </summary>
+    virtual protected void OnInteractedInherit()
+    {
+
     }
 
 
